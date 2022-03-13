@@ -4,14 +4,17 @@ phases:
         commands:
             - echo "Pré Build phase - Exemplo baixar dependencias se fosse necessario"
     build:
-        commands:
+        commands:                    
+            - echo "permission for gradlew"
+            - chmod +x ./gradlew
+            - echo "test with gradle"     
+            - ./gradlew clean build
             - echo "Building"
-            - chmod +x ./gradlew      
             - ./gradlew clean build
     post_build:
         commands:
             - echo "Movendo os arquivos que serão feitos upload"
-            - mvn target/dist/*.war ./ROOT.war
+            - cp target/dist/*.war ./ROOT.war
 artifacts:
     files:
         - ROOT.war
