@@ -5,8 +5,9 @@ phases:
             - echo "Pré Build phase - Exemplo baixar dependencias se fosse necessario"
     build:
         commands:
-            - echo "Building"      
-            - gradle clean build
+            - echo "Building"
+            - chmod +x ./gradlew      
+            - ./gradlew clean build
     post_build:
         commands:
             - echo "Movendo os arquivos que serão feitos upload"
