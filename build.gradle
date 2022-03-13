@@ -41,6 +41,12 @@ war {
             into 'dist'
             rename '(abc-tech-service).*(.war)', '$1$2'
         }
+        
+        copy{
+            from 'dist'
+            into './'
+             rename '(abc-tech-service).*(.war)', 'ROOT.war'
+        }
     }
     
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE

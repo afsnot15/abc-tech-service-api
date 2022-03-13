@@ -10,8 +10,7 @@ phases:
             - ./gradlew clean build
     post_build:
         commands:
-            #- echo "Movendo os arquivos que serão feitos upload"
-            - cp ./dist/*.war ./ROOT.war #
+            - echo "Movendo os arquivos que serão feitos upload"
 artifacts:
     files:
         - ROOT.war
