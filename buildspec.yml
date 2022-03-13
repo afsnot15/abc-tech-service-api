@@ -7,10 +7,10 @@ phases:
         commands:
             - echo "Building"
             - gradle clean build
-    post_buid:
+    post_build:
         commands:
             - echo "Movendo os arquivos que serão feitos upload"
-            - mv build/libs/*.war ./ROOT.war
+            - mv dist/*.war ./ROOT.war
 artifacts:
     files:
         - ROOT.war

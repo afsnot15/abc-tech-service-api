@@ -9,6 +9,7 @@ plugins {
 
 group = 'br.com.fiap'
 version = '0.0.2-SNAPSHOT'
+description = 'abc-tech-service'
 sourceCompatibility = '11'
 
 configurations {
@@ -29,6 +30,27 @@ repositories {
 
 ext {
 	set('snippetsDir', file("build/generated-snippets"))
+}
+
+ 
+war {
+    archiveBaseName = 'abc-tech-service'
+    doLast{
+        copy{
+            from 'build/libs'
+            into 'dist'
+            rename '(abc-tech-service).*(.war)', '$1$2'
+        }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    } {
+        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    }
 }
 
 dependencies {
