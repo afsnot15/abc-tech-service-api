@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'br.com.fiap'
-version = '0.0.3-SNAPSHOT'
+version = '0.0.4-SNAPSHOT'
 description = 'abc-tech-service'
 sourceCompatibility = '11'
 
