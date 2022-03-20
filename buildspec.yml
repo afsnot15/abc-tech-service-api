@@ -2,11 +2,10 @@ version: 0.2
 phases:
     pre_build:
         commands:
-            - echo "Pré Build phase - Exemplo baixar dependencias se fosse necessario"
-    build:
-        commands:                    
             - echo "permission for gradlew"
             - chmod +x ./gradlew
+    build:
+        commands:                    
             - echo "test with gradle"     
             - ./gradlew clean build
             - echo "Building"
