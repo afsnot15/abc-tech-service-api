@@ -1,8 +1,10 @@
 package br.com.fiap.abctechservice.model;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,18 +36,18 @@ public class Order {
     @ManyToMany
     private List<Assistance> services;
 
-    @OneToOne
-    @JoinColumn(name = "start_order_location_id")
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "start_order_location_id", foreignKey = @ForeignKey(name = "FK_start_order_id"))
     private OrderLocation startOrderLocation;
 
-    @OneToOne
-    @JoinColumn(name = "end_order_location_id")
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "end_order_location_id", foreignKey = @ForeignKey(name = "FK_end_order_id"))
     private OrderLocation endOrderLocation;
-    
+
     public boolean hasMinAssists() {
         return services.size() > 0;
     }
-    
+
     public boolean exceedsMaxAssists() {
         return services.size() > 15;
     }
