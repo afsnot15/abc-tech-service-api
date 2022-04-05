@@ -6,8 +6,6 @@ phases:
             - chmod +x ./gradlew
     build:
         commands:                    
-            - echo "test with gradle"     
-            - ./gradlew clean test
             - echo "Building"
             - ./gradlew clean build
     post_build:

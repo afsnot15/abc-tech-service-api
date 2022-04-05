@@ -12,11 +12,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-        
-        
-        DB_HOSTNAME=abc-tech.cta6wmiuzkl6.us-east-2.rds.amazonaws.com
-        DB_PORT=3306
-        DB_NAME=abc_tech
-        DB_USERNAME=admin
-        DB_PASSWORD=Fiap1234
     
