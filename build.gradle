@@ -19,9 +19,9 @@ configurations {
 }
 
 
-processResources {
+/*processResources {
        expand(project.properties)
-}
+}*/
 
 repositories {
 	maven { url 'https://repo.spring.io/release' }
