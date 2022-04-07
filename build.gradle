@@ -20,7 +20,9 @@ configurations {
 
 
 processResources {
-       expand(project.properties)
+    include "**/*.properties"
+
+    expand(project.properties)
 }
 
 repositories {
