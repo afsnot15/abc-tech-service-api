@@ -9,8 +9,8 @@ CREATE TABLE orders (
 
 CREATE TABLE orders_services (
   order_id BIGINT NOT NULL,
-  service_id BIGINT NOT NULL,
-  CONSTRAINT fk_order_assistance_id FOREIGN KEY (service_id) REFERENCES assistances (id),
+  services_id BIGINT NOT NULL,
+  CONSTRAINT fk_order_assistance_id FOREIGN KEY (services_id) REFERENCES assistances (id),
   CONSTRAINT fk_assistance_order_id FOREIGN KEY (order_id) REFERENCES orders (id)
 );
 

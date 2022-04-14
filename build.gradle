@@ -1,10 +1,11 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.4'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'org.asciidoctor.convert' version '1.5.8'
-	id 'java'
-	id 'war'
-	id 'org.springframework.experimental.aot' version '0.11.3'
+    id 'org.springframework.boot' version '2.6.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.asciidoctor.convert' version '1.5.8'
+    id 'java'
+    id 'war'
+    id 'org.springframework.experimental.aot' version '0.11.3'
+    id 'jacoco'
 }
 
 group = 'br.com.fiap'
@@ -13,37 +14,37 @@ description = 'abc-tech-service'
 sourceCompatibility = '11'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	maven { url 'https://repo.spring.io/release' }
-	mavenCentral()
+    maven { url 'https://repo.spring.io/release' }
+    mavenCentral()
 }
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
+    set('snippetsDir', file("build/generated-snippets"))
 }
 
- 
+
 war {
     archiveBaseName = 'abc-tech-service'
-    doLast{
-        copy{
+    doLast {
+        copy {
             from 'build/libs'
             into 'dist'
             rename '(abc-tech-service).*(.war)', '$1$2'
         }
-        
-        copy{
+
+        copy {
             from 'dist'
             into './'
-             rename '(abc-tech-service).*(.war)', 'ROOT.war'
+            rename '(abc-tech-service).*(.war)', 'ROOT.war'
         }
     }
-    
+
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from {
         configurations.runtimeClasspath.collect {
@@ -59,16 +60,16 @@ dependencies {
     implementation 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-starter-tomcat'
-    
+
     implementation 'mysql:mysql-connector-java:8.0.28'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.4'
     implementation 'org.flywaydb:flyway-core:8.0.5'
     implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.6'
-    
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
-    
+
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
@@ -77,16 +78,17 @@ dependencies {
 }
 
 tasks.named('test') {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+
 }
 
 tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
-	dependsOn test
+    inputs.dir snippetsDir
+    dependsOn test
 }
 
 tasks.named('bootBuildImage') {
-	builder = 'paketobuildpacks/builder:tiny'
-	environment = ['BP_NATIVE_IMAGE': 'true']
+    builder = 'paketobuildpacks/builder:tiny'
+    environment = ['BP_NATIVE_IMAGE': 'true']
 }

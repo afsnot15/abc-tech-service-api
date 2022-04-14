@@ -9,4 +9,5 @@ public interface OrderService {
 
     List<Order> listOrderByOperator(Long operatorId);
 
+    Order getOrderById(Long orderId);
 }
