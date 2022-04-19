@@ -1,16 +1,17 @@
 package br.com.fiap.abctechservice.application.impl;
 
 import br.com.fiap.abctechservice.application.OrderApplication;
-import br.com.fiap.abctechservice.application.dto.AssistDto;
-import br.com.fiap.abctechservice.application.dto.OrderDto;
-import br.com.fiap.abctechservice.application.dto.OrderLocationDto;
-import br.com.fiap.abctechservice.application.dto.OrderResponseDto;
+import br.com.fiap.abctechservice.application.dto.*;
+import br.com.fiap.abctechservice.model.Operator;
 import br.com.fiap.abctechservice.model.Order;
 import br.com.fiap.abctechservice.model.OrderLocation;
+import br.com.fiap.abctechservice.repository.OperatorRepository;
 import br.com.fiap.abctechservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 public class OrderApplicationImpl implements OrderApplication{
     
     private final OrderService orderService;
+    private final OperatorRepository operatorRepository;
 
-    public OrderApplicationImpl(@Autowired OrderService orderService) {
+    public OrderApplicationImpl(@Autowired OrderService orderService, OperatorRepository operatorRepository) {
         this.orderService = orderService;
+        this.operatorRepository = operatorRepository;
     }
 
     @Override
@@ -40,11 +43,43 @@ public class OrderApplicationImpl implements OrderApplication{
     @Override
     public void createorder(OrderDto orderDto) {
         Order order = new Order();
-        order.setOperatorId(orderDto.getOperatorId());
+
+        Operator operator = operatorRepository.findFirstByRegistration(orderDto.getOperatorId().toString()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        order.setOperatorId(operator.getId());
         order.setStartOrderLocation(getOrderLocationFromOrderLocationDto(orderDto.getStart()));
-        order.setStartOrderLocation(getOrderLocationFromOrderLocationDto(orderDto.getEnd()));
+        order.setEndOrderLocation(getOrderLocationFromOrderLocationDto(orderDto.getEnd()));
         
         this.orderService.saveOrder(order, orderDto.getServices());
+    }
+
+    @Override
+    public List<OrderOperatorResponseDto> listOrderByOperator(String operatorRegistration) {
+        List<OrderOperatorResponseDto> ordersResponse = new ArrayList<>();
+
+        Operator operator = operatorRepository.findFirstByRegistration(operatorRegistration).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        List<Order> orders = orderService.listOrderByOperator(operator.getId());
+
+        orders.forEach(order -> {
+            OrderOperatorResponseDto orderResponse = new OrderOperatorResponseDto();
+            orderResponse.setStart(getOrderLocationDtoFromOrderLocation(order.getStartOrderLocation()));
+            orderResponse.setEnd(getOrderLocationDtoFromOrderLocation(order.getEndOrderLocation()));
+            orderResponse.setOperatorName(operator.getName());
+            orderResponse.setOperatorRegistration(operator.getRegistration());
+
+            List<AssistDto> servicesDto = new ArrayList<>();
+
+            order.getServices().forEach(services -> {
+                servicesDto.add(new AssistDto(services.getId(), services.getName(), services.getDescription()));
+            });
+
+            orderResponse.setServices(servicesDto);
+
+            ordersResponse.add(orderResponse);
+        });
+
+        return ordersResponse;
     }
     
     private OrderLocation getOrderLocationFromOrderLocationDto(OrderLocationDto orderLocationDto){

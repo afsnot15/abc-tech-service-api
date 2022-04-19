@@ -11,5 +11,8 @@ spring:
     username: sa
     password: sa
 
+jwt:
+  secret: f1aPs3cr37
+  expire: 5
             
     

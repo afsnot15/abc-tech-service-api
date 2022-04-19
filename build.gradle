@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'br.com.fiap'
-version = '0.0.5-SNAPSHOT'
+version = '0.0.6-SNAPSHOT'
 description = 'abc-tech-service'
 sourceCompatibility = '11'
 
@@ -65,6 +65,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.4'
     implementation 'org.flywaydb:flyway-core:8.0.5'
     implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.6'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
