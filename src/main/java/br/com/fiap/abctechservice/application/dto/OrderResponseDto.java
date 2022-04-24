@@ -1,9 +1,6 @@
 package br.com.fiap.abctechservice.application.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,6 +8,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 public class OrderResponseDto {
 
     private Long id;
@@ -18,4 +17,5 @@ public class OrderResponseDto {
     private List<AssistDto> services;
     private OrderLocationDto start;
     private OrderLocationDto end;
+
 }

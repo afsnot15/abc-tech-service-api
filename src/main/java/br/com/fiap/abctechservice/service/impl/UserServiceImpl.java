@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         return jwtDTO;
     }
 
-    public String generateRegistration() {
+    private String generateRegistration() {
         return String.valueOf(new Random().nextInt() & Integer.MAX_VALUE);
     }
 }

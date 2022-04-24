@@ -9,6 +9,7 @@ import br.com.fiap.abctechservice.repository.OrderRepository;
 import br.com.fiap.abctechservice.service.OrderService;
 import br.com.fiap.abctechservice.service.impl.OrderServiceImpl;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.Mock;
+
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,11 +26,14 @@ import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.swing.text.html.Option;
+
 @SpringBootTest
 public class OrderServiceTest {
     
     @Mock
     private OrderRepository orderRepository;
+
     @Mock
     private AssistanceRepository assistaneRepository;
     
@@ -55,7 +61,6 @@ public class OrderServiceTest {
         orderService.saveOrder(order, generate_mock_assistace(1));
         
         verify(orderRepository, times(1)).save(order);
-        
     }
     
     @Test
@@ -66,7 +71,6 @@ public class OrderServiceTest {
         Assertions.assertThrows(MinimiumAssistsRequiredException.class, () -> orderService.saveOrder(order, List.of()));
         
         verify(orderRepository, never()).save(order);
-        
     }
     
     @Test
@@ -77,6 +81,28 @@ public class OrderServiceTest {
         Assertions.assertThrows(MaxAssistsException.class, () -> orderService.saveOrder(order, generate_mock_assistace(20)));
         
         verify(orderRepository, never()).save(order);
+    }
+
+    @Test
+    public void testGetOrderById(){
+        Optional<Order> orderEspected = Optional.of(new Order());
+
+        when(orderRepository.findById(anyLong())).thenReturn(Optional.of(new Order()));
+
+        Order orderActual = orderService.getOrderById(0L);
+
+        Assertions.assertEquals(orderEspected.get(), orderActual);
+    }
+
+    @Test
+    public void testListOrderOperator(){
+      List<Order> ordersExpected = Arrays.asList(new Order());
+
+        when(orderRepository.findByOperatorId(anyLong())).thenReturn(ordersExpected);
+
+        List<Order> ordersActual = orderService.listOrderByOperator(0L);
+
+        Assertions.assertEquals(ordersExpected.stream().findFirst(), ordersActual.stream().findFirst());
     }
     
     private List<Long> generate_mock_assistace(int number) {

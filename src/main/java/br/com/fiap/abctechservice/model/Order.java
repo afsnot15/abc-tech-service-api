@@ -12,10 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 @Entity
 @Table(name = "orders")
@@ -23,6 +21,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Order {
 
     @Id
@@ -51,4 +51,5 @@ public class Order {
     public boolean exceedsMaxAssists() {
         return services.size() > 15;
     }
+
 }

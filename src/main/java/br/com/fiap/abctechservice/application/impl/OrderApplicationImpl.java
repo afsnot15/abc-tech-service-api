@@ -84,6 +84,10 @@ public class OrderApplicationImpl implements OrderApplication{
     
     private OrderLocation getOrderLocationFromOrderLocationDto(OrderLocationDto orderLocationDto){
         OrderLocation location = new OrderLocation();
+
+        if(orderLocationDto == null){
+            return null;
+        }
         
         location.setLatitude(orderLocationDto.getLatitude());
         location.setLongitude(orderLocationDto.getLongitude());
@@ -95,6 +99,10 @@ public class OrderApplicationImpl implements OrderApplication{
 
     private OrderLocationDto getOrderLocationDtoFromOrderLocation(OrderLocation orderLocation){
         OrderLocationDto location = new OrderLocationDto();
+
+        if(orderLocation == null){
+            return null;
+        }
 
         location.setLatitude(orderLocation.getLatitude());
         location.setLongitude(orderLocation.getLongitude());

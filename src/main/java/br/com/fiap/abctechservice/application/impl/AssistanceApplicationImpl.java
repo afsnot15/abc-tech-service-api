@@ -24,5 +24,4 @@ public class AssistanceApplicationImpl implements AssistanceApplication {
         return listAssists.stream().map(assistance -> new AssistDto(assistance.getId(), assistance.getName(), assistance.getDescription()))
                 .collect(Collectors.toList());
     }
-
 }

@@ -1,15 +1,14 @@
 package br.com.fiap.abctechservice.application.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 public class AssistDto {
     
     private Long id;
