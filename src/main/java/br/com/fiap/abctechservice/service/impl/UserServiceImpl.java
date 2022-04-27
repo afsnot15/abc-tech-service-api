@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -62,6 +63,12 @@ public class UserServiceImpl implements UserService {
         String token = jwtTokenUtil.generateToken(authDTO.getRegistration());
         JwtDto jwtDTO = new JwtDto();
         jwtDTO.setToken(token);
+
+        Optional<Operator> operator = userRepository.findFirstByRegistration(authDTO.getRegistration());
+        if (operator.isPresent()) {
+            jwtDTO.setOperator(operator.get().getName());
+        }
+
         return jwtDTO;
     }
 

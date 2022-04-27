@@ -7,5 +7,6 @@ import lombok.Setter;
 @Setter
 public class JwtDto {
 
+    private String operator;
     private String token;
 }
